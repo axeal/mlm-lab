@@ -7,3 +7,10 @@ helm:
   repo: https://charts.jetstack.io
   chart: trust-manager
   releaseName: trust-manager
+diff:
+  comparePatches:
+    - apiVersion: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      name: trust-manager
+      operations:
+        - {"op":"remove", "path":"/webhooks"}
