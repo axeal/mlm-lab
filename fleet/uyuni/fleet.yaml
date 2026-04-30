@@ -26,4 +26,4 @@ helm:
         password: admin
 
     global:
-      fqdn: ${ get .ClusterLabels "mlm-hostname" }
+      fqdn: ${ get .ClusterLabels "uyuni-fqdn" }
