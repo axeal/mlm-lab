@@ -53,10 +53,10 @@ ingress-controller: traefik
     apiVersion: helm.cattle.io/v1
     kind: HelmChartConfig
     metadata:
-    name: rke2-traefik
-    namespace: kube-system
+      name: rke2-traefik
+      namespace: kube-system
     spec:
-    valuesContent: |-
+      valuesContent: |-
         ports:
         reportdb-pgsql:
             port: 5432
@@ -153,37 +153,37 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
     kind: Cluster
     [...]
     spec:
-    [...]
-    rkeConfig:
-      chartValues:
-        rke2-traefik:
-          ports:
-            reportdb-pgsql:
-              containerPort: 5432
-              expose:
-              default: true
-              exposedPort: 5432
-              hostPort: 5432
-              port: 5432
-              protocol: TCP
-            salt-publish:
-              containerPort: 4505
-              expose:
-              default: true
-              exposedPort: 4505
-              hostPort: 4505
-              port: 4505
-              protocol: TCP
-            salt-request:
-              containerPort: 4506
-              expose:
-              default: true
-              exposedPort: 4506
-              hostPort: 4506
-              port: 4506
-              protocol: TCP
-      machineGlobalConfig:
-        ingress-controller: traefik
+      [...]
+      rkeConfig:
+        chartValues:
+          rke2-traefik:
+            ports:
+              reportdb-pgsql:
+                containerPort: 5432
+                expose:
+                default: true
+                exposedPort: 5432
+                hostPort: 5432
+                port: 5432
+                protocol: TCP
+              salt-publish:
+                containerPort: 4505
+                expose:
+                default: true
+                exposedPort: 4505
+                hostPort: 4505
+                port: 4505
+                protocol: TCP
+              salt-request:
+                containerPort: 4506
+                expose:
+                default: true
+                exposedPort: 4506
+                hostPort: 4506
+                port: 4506
+                protocol: TCP
+        machineGlobalConfig:
+          ingress-controller: traefik
     [...]
     ```
 
