@@ -12,9 +12,8 @@ dependsOn:
         mlm-lab-bundle: local-path-provisioner
 
 helm:
-  repo: oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni
+  repo: oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm
   version: 2026.4.0
-  chart: server-helm
   releaseName: uyuni
   values:
     repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
