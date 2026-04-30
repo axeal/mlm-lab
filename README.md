@@ -7,7 +7,18 @@
 - `kubectl` (`alias kubectl=/var/lib/rancher/rke2/bin/kubectl` on RKE2 server node)
 - A kubeconfig with admin permissions (`export KUBECONFIG=/etc/rancher/rke2/rke2.yaml` on RKE2 server node)
 
-## Process
+## RKE2 cluster configuration
+
+A simple single node RKE2 cluster can be provisioned by following the [RKE2 Quick Start documentation](https://docs.rke2.io/install/quickstart).
+
+The only cluster configuration that needs to be set is the choice of Traefik as the Ingress Controller.
+
+Create the file `/etc/rancher/rke2/config.yaml` with the following contents, before installing RKE2:
+```
+ingress-controller: traefik
+```
+
+## Uyuni installation
 
 1. Install [cert-manager](https://cert-manager.io/docs/installation/helm/)
     ```
