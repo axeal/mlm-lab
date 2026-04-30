@@ -116,6 +116,8 @@ ingress-controller: traefik
     # https://github.com/uyuni-project/uyuni/tree/master/containers/server-helm#apparmor
     server:
         superPrivileged: true
+    tftp:
+        enabled: false
     ```
 
 1. Update server-helm chart version
