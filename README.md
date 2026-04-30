@@ -183,7 +183,7 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
               port: 4506
               protocol: TCP
       machineGlobalConfig:
-      ingress-controller: traefik
+        ingress-controller: traefik
     [...]
     ```
 
