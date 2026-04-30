@@ -27,3 +27,6 @@ helm:
 
     server:
       superPrivileged: true
+
+    tftp:
+      enabled: false
