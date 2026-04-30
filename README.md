@@ -29,7 +29,7 @@ ingress-controller: traefik
         --set crds.enabled=true
     ```
 
-1. Install [trust-manager](https://cert-manager.io/docs/installation/helm/)
+1. Install [trust-manager](https://cert-manager.io/docs/trust/trust-manager/installation/#3-install-trust-manager)
     ```
     helm upgrade --install \
         trust-manager oci://quay.io/jetstack/charts/trust-manager \
