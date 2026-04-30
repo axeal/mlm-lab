@@ -1,5 +1,8 @@
 defaultNamespace: uyuni
 
+labels:
+  mlm-lab-bundle: uyuni-bootstrap
+
 dependsOn:
   - selector:
       matchLabels:
@@ -7,14 +10,9 @@ dependsOn:
   - selector:
       matchLabels:
         mlm-lab-bundle: trust-manager
-  - selector:
-      matchLabels:
-        mlm-lab-bundle: local-path-provisioner
 
 helm:
-  chart: server-selfsigned
-  repo: https://github.com/uyuni-project/uyuni-charts
-  releaseName: uyuni
+  releaseName: uyuni-bootstrap
   values:
     credentials:
       db:
@@ -29,11 +27,3 @@ helm:
 
     global:
       fqdn: "${clusterLabels.mlm-hostname}"
-
-    server-helm:
-      repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
-      ingress:
-        type: traefik
-        class: traefik
-      server:
-        superPrivileged: true

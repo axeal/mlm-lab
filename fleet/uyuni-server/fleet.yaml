@@ -1,0 +1,30 @@
+defaultNamespace: uyuni
+
+labels:
+  mlm-lab-bundle: uyuni-server
+
+dependsOn:
+  - selector:
+      matchLabels:
+        mlm-lab-bundle: uyuni-bootstrap
+  - selector:
+      matchLabels:
+        mlm-lab-bundle: local-path-provisioner
+
+helm:
+  repo: oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni
+  version: 2026.4.0
+  chart: server-helm
+  releaseName: uyuni
+  values:
+    repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
+
+    global:
+      fqdn: "${clusterLabels.mlm-hostname}"
+
+    ingress:
+      type: traefik
+      class: traefik
+
+    server:
+      superPrivileged: true
