@@ -4,7 +4,8 @@ labels:
   mlm-lab-bundle: cert-manager
 
 helm:
-  repo: "oci://quay.io/jetstack/charts/cert-manager"
+  repo: https://charts.jetstack.io
+  chart: cert-manager
   values:
     crds:
       enabled: true
