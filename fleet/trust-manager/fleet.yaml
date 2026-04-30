@@ -1,0 +1,8 @@
+defaultNamespace: cert-manager
+
+labels:
+  mlm-lab-bundle: trust-manager
+
+helm:
+  repo: oci://quay.io/jetstack/charts
+  chart: trust-manager

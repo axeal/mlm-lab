@@ -1,0 +1,39 @@
+defaultNamespace: uyuni
+
+dependsOn:
+  - selector:
+      matchLabels:
+        mlm-lab-bundle: cert-manager
+  - selector:
+      matchLabels:
+        mlm-lab-bundle: trust-manager
+  - selector:
+      matchLabels:
+        mlm-lab-bundle: local-path-provisioner
+
+helm:
+  chart: server-selfsigned
+  repo: https://github.com/uyuni-project/uyuni-charts
+  releaseName: uyuni
+  values:
+    credentials:
+      db:
+        admin:
+          password: admin
+        internal:
+          password: admin
+        reportdb:
+          password: admin
+      admin:
+        password: admin
+
+    global:
+      fqdn: "${clusterLabels.mlm-hostname}"
+
+    server-helm:
+      repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
+      ingress:
+        type: traefik
+        class: traefik
+      server:
+        superPrivileged: true

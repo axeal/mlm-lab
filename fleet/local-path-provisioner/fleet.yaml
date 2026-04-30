@@ -1,0 +1,4 @@
+defaultNamespace: local-path-storage
+
+labels:
+  mlm-lab-bundle: local-path-provisioner

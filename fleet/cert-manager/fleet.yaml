@@ -1,0 +1,11 @@
+defaultNamespace: cert-manager
+
+labels:
+  mlm-lab-bundle: cert-manager
+
+helm:
+  repo: oci://quay.io/jetstack/charts
+  chart: cert-manager
+  values:
+    crds:
+      enabled: true
