@@ -117,7 +117,7 @@ ingress-controller: traefik
     server:
         superPrivileged: true
     tftp:
-        enabled: false
+        enable: false
     ```
 
 1. Update server-helm chart version
