@@ -19,7 +19,7 @@ helm:
     repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
 
     global:
-      fqdn: "${clusterLabels.mlm-hostname}"
+      fqdn: ${ .ClusterLabels.mlm-hostname }
 
     ingress:
       type: traefik

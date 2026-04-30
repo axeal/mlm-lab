@@ -26,4 +26,4 @@ helm:
         password: admin
 
     global:
-      fqdn: "${clusterLabels.mlm-hostname}"
+      fqdn: ${ .ClusterLabels.mlm-hostname }
