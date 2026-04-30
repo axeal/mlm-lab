@@ -30,3 +30,12 @@ helm:
 
     tftp:
       enabled: false
+diff:
+  comparePatches:
+  - apiVersion: apps/v1
+    kind: Deployment
+    name: uyuni
+    namespace: uyuni
+    operations:
+      # This ignores the entire volumes list during comparison
+      - {"op": "remove", "path": "/spec/template/spec/volumes"}
