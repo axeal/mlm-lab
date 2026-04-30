@@ -4,4 +4,4 @@ labels:
   mlm-lab-bundle: trust-manager
 
 helm:
-  repo: oci://quay.io/jetstack/charts/trust-manager
+  repo: "oci://quay.io/jetstack/charts/trust-manager"
