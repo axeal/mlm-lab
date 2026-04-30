@@ -20,8 +20,8 @@
 
 1. Install [trust-manager](https://cert-manager.io/docs/installation/helm/)
     ```
-    helm upgrade trust-manager oci://quay.io/jetstack/charts/trust-manager \
-        --install \
+    helm upgrade --install \
+        trust-manager oci://quay.io/jetstack/charts/trust-manager \
         --namespace cert-manager
     ```
 
@@ -35,9 +35,7 @@
     kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     ```
 
-1. Configure Traefik
-
-    Configure Traefik according to [the uyuni-charts documentation](https://github.com/uyuni-project/uyuni-charts/blob/main/README.md#uyuni-server-configuration).
+1. Configure Traefik according to [the uyuni-charts documentation](https://github.com/uyuni-project/uyuni-charts/blob/main/README.md#uyuni-server-configuration).
 
     Create the file `/var/lib/rancher/rke2/server/manifests/rke2-traefik-config.yaml` on the RKE2 server node with the following [HelmChartConfig](https://docs.rke2.io/add-ons/helm#customizing-packaged-components-with-helmchartconfig) manifest:
     ```
@@ -82,7 +80,7 @@
 
 1. Populate values file
 
-    Create a `values.yaml` with following contents, and set `fqdn` to the value of the hostname for uyuni. You can use a [nip.io](https://nip.io/) address, pointing to the external IP of an RKE2 cluster node.
+    Create a `values.yaml` file with the following contents, and set `fqdn` to the value of the hostname for uyuni. You can use a [nip.io](https://nip.io/) address, pointing to the external IP of an RKE2 cluster node.
     ```
     credentials:
     db:
@@ -114,7 +112,7 @@
         ```
         helm show chart oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm
         ```
-    2. Update the server-helm chart version in `uyuni-charts/server-selfsigned/Chart.yaml` to reflect the latest version.
+    2. Update the server-helm chart version in `uyuni-charts/server-selfsigned/Chart.yaml` to reflect the latest version, eg. `2026.4.0`.
 
 1. Build helm dependencies
     ```
@@ -124,5 +122,9 @@
 1. Install uyuni helm chart
 
     ```
-    helm upgrade --create-namespace --namespace uyuni --install uyuni-charts/server-selfsigned -f values.yaml
+    helm upgrade --install \
+        uyuni uyuni-charts/server-selfsigned \
+        --namespace uyuni \
+        --create-namespace \
+        -f values.yaml
     ```
