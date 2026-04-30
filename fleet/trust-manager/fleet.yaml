@@ -5,3 +5,4 @@ labels:
 
 helm:
   repo: "oci://quay.io/jetstack/charts/trust-manager"
+  releaseName: trust-manager
