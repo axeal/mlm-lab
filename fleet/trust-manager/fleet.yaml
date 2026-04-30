@@ -4,8 +4,7 @@ labels:
   mlm-lab-bundle: trust-manager
 
 helm:
-  repo: https://charts.jetstack.io
-  chart: trust-manager
+  chart: oci://quay.io/jetstack/charts/trust-manager
   releaseName: trust-manager
 diff:
   comparePatches:
