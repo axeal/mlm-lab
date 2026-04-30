@@ -7,7 +7,7 @@
 - `kubectl` (`alias kubectl=/var/lib/rancher/rke2/bin/kubectl` on RKE2 server node)
 - A kubeconfig with admin permissions (`export KUBECONFIG=/etc/rancher/rke2/rke2.yaml` on RKE2 server node)
 
-## RKE2 cluster configuration
+## RKE2 Cluster Configuration
 
 A simple single node RKE2 cluster can be provisioned by following the [RKE2 Quick Start documentation](https://docs.rke2.io/install/quickstart).
 
@@ -18,7 +18,7 @@ Create the file `/etc/rancher/rke2/config.yaml` with the following contents, bef
 ingress-controller: traefik
 ```
 
-## Uyuni installation
+## Manual Uyuni Installation
 
 1. Install [cert-manager](https://cert-manager.io/docs/installation/helm/)
     ```
@@ -141,3 +141,78 @@ ingress-controller: traefik
         --create-namespace \
         -f values.yaml
     ```
+
+## Automated Deployment with Fleet
+
+It is possible to automate the deployment into a Rancher-provisioned RKE2 cluster using Fleet.
+
+1. In Rancher v2.13.5+ provision an RKE2 cluster with the Traefik Ingress Controller and the required Traefik configuration:
+
+    ```
+    apiVersion: provisioning.cattle.io/v1
+    kind: Cluster
+    [...]
+    spec:
+    [...]
+    rkeConfig:
+      chartValues:
+        rke2-traefik:
+          ports:
+            reportdb-pgsql:
+              containerPort: 5432
+              expose:
+              default: true
+              exposedPort: 5432
+              hostPort: 5432
+              port: 5432
+              protocol: TCP
+            salt-publish:
+              containerPort: 4505
+              expose:
+              default: true
+              exposedPort: 4505
+              hostPort: 4505
+              port: 4505
+              protocol: TCP
+            salt-request:
+              containerPort: 4506
+              expose:
+              default: true
+              exposedPort: 4506
+              hostPort: 4506
+              port: 4506
+              protocol: TCP
+      machineGlobalConfig:
+      ingress-controller: traefik
+    [...]
+    ```
+
+1. Navigate to the **Continuous Delivery** interface and click **Clusters**.
+1. Click **Edit Config** for the downstream RKE2 cluster.
+1. Click **Add Label**.
+1. Add the **Key** `uyuni-fqdn` and for **Value** enter the external IP of an RKE2 cluster node with nip.io, e.g. `1.2.3.4.nip.io`. This will be used as the FQDN for uyuni.
+1. Click **Save**.
+1. Explore the **local** cluster and click **Import YAML** in the top-right.
+1. Import the following GitRepo manifest:
+    ```
+    apiVersion: fleet.cattle.io/v1alpha1
+    kind: GitRepo
+    metadata:
+      name: uyuni
+      namespace: fleet-default
+    spec:
+      branch: master
+      paths:
+        - fleet
+      pollingInterval: 1m0s
+      repo: https://github.com/axeal/mlm-lab.git
+      targets:
+        - clusterSelector:
+            matchExpressions:
+            - key: provider.cattle.io
+                operator: NotIn
+                values:
+                - harvester
+    ```
+1. Navigate to the **Continuous Delivery** interface and click **Resources** > **Bundles**.
+1. Observe the uyuni resources deployed.
