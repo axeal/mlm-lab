@@ -210,8 +210,8 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
         - clusterSelector:
             matchExpressions:
             - key: provider.cattle.io
-                operator: NotIn
-                values:
+              operator: NotIn
+              values:
                 - harvester
     ```
 1. Navigate to the **Continuous Delivery** interface and click **Resources** > **Bundles**.
