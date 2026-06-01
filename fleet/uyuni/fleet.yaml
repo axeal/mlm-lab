@@ -1,4 +1,4 @@
-defaultNamespace: uyuni
+defaultNamespace: uyuni-server
 
 labels:
   mlm-lab-bundle: uyuni-bootstrap
