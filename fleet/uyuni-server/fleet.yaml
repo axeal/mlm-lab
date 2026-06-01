@@ -31,7 +31,7 @@ helm:
       enable: false
 
     repository: registry.suse.com/suse/multi-linux-manager/5.2/x86_64
-    registrySecret: the-scc-secret
+    registrySecret: regcred
 
 diff:
   comparePatches:
