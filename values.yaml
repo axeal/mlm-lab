@@ -14,7 +14,7 @@ global:
 
 server-helm:
   # All the values for server-helm should follow
-  repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
+  repository: registry.suse.com/suse/multi-linux-manager/5.2/x86_64
   ingress:
     type: traefik
     class: traefik
@@ -23,3 +23,4 @@ server-helm:
     superPrivileged: true
   tftp:
     enable: false
+  registrySecret: regcred

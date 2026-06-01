@@ -87,7 +87,14 @@ ingress-controller: traefik
 1. Clone uyuni-charts GitHub repository
     ```
     git clone https://github.com/uyuni-project/uyuni-charts.git
+    cd uyuni-chart
+    git checkout Manager-5.2
+    cd ..
     ```
+
+1. Fix repository in `uyuni-charts/server-selfsigned/Chart.yaml`
+
+    Update repository from `oci://registry.suse.com/suse/multi-linux-manager/5.2/server-helm` to `oci://registry.suse.com/suse/multi-linux-manager/5.2`.
 
 1. Populate values file
 
@@ -109,7 +116,7 @@ ingress-controller: traefik
 
     server-helm:
     # All the values for server-helm should follow
-    repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
+    repository: registry.suse.com/suse/multi-linux-manager/5.2/x86_64
     ingress:
         type: traefik
         class: traefik
@@ -118,14 +125,16 @@ ingress-controller: traefik
         superPrivileged: true
     tftp:
         enable: false
+    registrySecret: regcred
     ```
 
-1. Update server-helm chart version
-    1. Query the latest version of the server-helm chart
-        ```
-        helm show chart oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm
-        ```
-    2. Update the server-helm chart version in `uyuni-charts/server-selfsigned/Chart.yaml` to reflect the latest version, eg. `2026.4.0`.
+1. Create namespace, registry credential and scc-secret
+
+    ```
+    kubectl create ns uyuni-server
+    kubectl -n uyuni-server create secret docker-registry regcred --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
+    kubectl -n uyuni-server create secret generic the-scc-secret --from-literal=username=$SCC_USER --from-literal=password=$SCC_PASS
+    ```
 
 1. Build helm dependencies
     ```
@@ -137,9 +146,17 @@ ingress-controller: traefik
     ```
     helm upgrade --install \
         uyuni uyuni-charts/server-selfsigned \
-        --namespace uyuni \
+        --namespace uyuni-server \
         --create-namespace \
         -f values.yaml
+    ```
+
+1. Edit the uyuni Deployment in the uyuni-server Namespace
+
+    Edit the env vars `SCC_USER` and `SCC_PASS` on the uyuni container to reference the `the-scc-secret` Secret instead of `regcred`
+
+    ```
+    kubectl -n uyuni-server edit deployment uyuni
     ```
 
 ## Automated Deployment with Fleet
@@ -186,7 +203,12 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
       ingress-controller: traefik
     [...]
     ```
-
+1. Create namespace, registry credential and scc-secret in the downstream cluster:
+    ```
+    kubectl create ns uyuni-server
+    kubectl -n uyuni-server create secret docker-registry regcred --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
+    kubectl -n uyuni-server create secret generic the-scc-secret --from-literal=username=$SCC_USER --from-literal=password=$SCC_PASS
+    ```
 1. Navigate to the **Continuous Delivery** interface and click **Clusters**.
 1. Click **Edit Config** for the downstream RKE2 cluster.
 1. Click **Add Label**.
@@ -201,7 +223,7 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
       name: uyuni
       namespace: fleet-default
     spec:
-      branch: master
+      branch: beta2
       paths:
         - fleet
       pollingInterval: 1m0s
