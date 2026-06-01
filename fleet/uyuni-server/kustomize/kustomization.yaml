@@ -1,0 +1,26 @@
+- target:
+    kind: Deployment
+    name: uyuni
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: uyuni
+    spec:
+      template:
+        spec:
+          containers:
+          - name: uyuni
+            env:
+            - name: SCC_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: the-scc-secret
+                  optional: false
+            - name: SCC_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: the-scc-secret
+                  optional: false

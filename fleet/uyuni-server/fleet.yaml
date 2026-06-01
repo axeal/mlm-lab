@@ -1,4 +1,4 @@
-defaultNamespace: uyuni
+defaultNamespace: uyuni-server
 
 labels:
   mlm-lab-bundle: uyuni-server
@@ -12,11 +12,10 @@ dependsOn:
         mlm-lab-bundle: local-path-provisioner
 
 helm:
-  chart: "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm"
-  version: 2026.4.0
-  releaseName: uyuni
+  chart: "oci://registry.suse.com/suse/multi-linux-manager/5.2/server-helm"
+  version: 5.2.0-beta2
+  releaseName: smlm-server
   values:
-    repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
 
     global:
       fqdn: ${ get .ClusterLabels "uyuni-fqdn" }
@@ -30,12 +29,19 @@ helm:
 
     tftp:
       enable: false
+
+    repository: registry.suse.com/suse/multi-linux-manager/5.2/x86_64
+    registrySecret: the-scc-secret
+
 diff:
   comparePatches:
   - apiVersion: apps/v1
     kind: Deployment
     name: uyuni
-    namespace: uyuni
+    namespace: uyuni-server
     operations:
       # This ignores the entire volumes list during comparison
       - {"op": "remove", "path": "/spec/template/spec/volumes"}
+
+kustomize:
+  dir: ./kustomize
