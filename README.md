@@ -58,26 +58,26 @@ ingress-controller: traefik
     spec:
       valuesContent: |-
         ports:
-        reportdb-pgsql:
+          reportdb-pgsql:
             port: 5432
             expose:
-            default: true
+              default: true
             exposedPort: 5432
             protocol: TCP
             hostPort: 5432
             containerPort: 5432
-        salt-publish:
+          salt-publish:
             port: 4505
             expose:
-            default: true
+              default: true
             exposedPort: 4505
             protocol: TCP
             hostPort: 4505
             containerPort: 4505
-        salt-request:
+          salt-request:
             port: 4506
             expose:
-            default: true
+              default: true
             exposedPort: 4506
             protocol: TCP
             hostPort: 4506
@@ -94,30 +94,30 @@ ingress-controller: traefik
     Create a `values.yaml` file with the following contents, and set `fqdn` to the value of the hostname for uyuni. You can use a [nip.io](https://nip.io/) address, pointing to the external IP of an RKE2 cluster node.
     ```
     credentials:
-    db:
+      db:
         admin:
-        password: admin
+          password: admin
         internal:
-        password: admin
+          password: admin
         reportdb:
-        password: admin
-    admin:
+          password: admin
+      admin:
         password: admin
 
     global:
-        fqdn: "your.fq.dn"
+      fqdn: "your.fq.dn"
 
     server-helm:
     # All the values for server-helm should follow
     repository: registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni
     ingress:
-        type: traefik
-        class: traefik
+      type: traefik
+      class: traefik
     # https://github.com/uyuni-project/uyuni/tree/master/containers/server-helm#apparmor
     server:
-        superPrivileged: true
+      superPrivileged: true
     tftp:
-        enable: false
+      enable: false
     ```
 
 1. Update server-helm chart version
