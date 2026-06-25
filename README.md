@@ -53,35 +53,35 @@ ingress-controller: traefik
     apiVersion: helm.cattle.io/v1
     kind: HelmChartConfig
     metadata:
-    name: rke2-traefik
-    namespace: kube-system
+      name: rke2-traefik
+      namespace: kube-system
     spec:
-    valuesContent: |-
-      ports:
-        reportdb-pgsql:
-          port: 5432
-          expose:
-            default: true
-          exposedPort: 5432
-          protocol: TCP
-          hostPort: 5432
-          containerPort: 5432
-        salt-publish:
-          port: 4505
-          expose:
-            default: true
-          exposedPort: 4505
-          protocol: TCP
-          hostPort: 4505
-          containerPort: 4505
-        salt-request:
-          port: 4506
-          expose:
-            default: true
-          exposedPort: 4506
-          protocol: TCP
-          hostPort: 4506
-          containerPort: 4506
+      valuesContent: |-
+        ports:
+          reportdb-pgsql:
+            port: 5432
+            expose:
+              default: true
+            exposedPort: 5432
+            protocol: TCP
+            hostPort: 5432
+            containerPort: 5432
+          salt-publish:
+            port: 4505
+            expose:
+              default: true
+            exposedPort: 4505
+            protocol: TCP
+            hostPort: 4505
+            containerPort: 4505
+          salt-request:
+            port: 4506
+            expose:
+              default: true
+            exposedPort: 4506
+            protocol: TCP
+            hostPort: 4506
+            containerPort: 4506
     ```
 
 1. Clone uyuni-charts GitHub repository
@@ -112,7 +112,7 @@ ingress-controller: traefik
         password: admin
 
     global:
-        fqdn: "your.fq.dn"
+      fqdn: "your.fq.dn"
 
     server-helm:
     # All the values for server-helm should follow
