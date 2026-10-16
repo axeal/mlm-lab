@@ -200,7 +200,7 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
               port: 4506
               protocol: TCP
       machineGlobalConfig:
-      ingress-controller: traefik
+        ingress-controller: traefik
     [...]
     ```
 1. Create namespace, registry credential and scc-secret in the downstream cluster:
