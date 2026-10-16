@@ -23,4 +23,4 @@ server-helm:
     superPrivileged: true
   tftp:
     enable: false
-  registrySecret: regcred
+  registrySecret: scc-credentials

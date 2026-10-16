@@ -13,7 +13,7 @@ dependsOn:
 
 helm:
   chart: "oci://registry.suse.com/suse/multi-linux-manager/5.2/server-helm"
-  version: 5.2.0-beta2
+  version: 5.2.1
   releaseName: smlm-server
   values:
 
@@ -31,7 +31,7 @@ helm:
       enable: false
 
     repository: registry.suse.com/suse/multi-linux-manager/5.2/x86_64
-    registrySecret: regcred
+    registrySecret: scc-credentials
 
 diff:
   comparePatches:
@@ -42,6 +42,3 @@ diff:
     operations:
       # This ignores the entire volumes list during comparison
       - {"op": "remove", "path": "/spec/template/spec/volumes"}
-
-kustomize:
-  dir: ./kustomize

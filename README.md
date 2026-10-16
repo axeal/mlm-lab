@@ -125,15 +125,14 @@ ingress-controller: traefik
       superPrivileged: true
     tftp:
       enable: false
-    registrySecret: regcred
+    registrySecret: scc-credentials
     ```
 
 1. Create namespace, registry credential and scc-secret
 
     ```
     kubectl create ns uyuni-server
-    kubectl -n uyuni-server create secret docker-registry regcred --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
-    kubectl -n uyuni-server create secret generic the-scc-secret --from-literal=username=$SCC_USER --from-literal=password=$SCC_PASS
+    kubectl -n uyuni-server create secret docker-registry scc-credentials --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
     ```
 
 1. Build helm dependencies
@@ -149,14 +148,6 @@ ingress-controller: traefik
         --namespace uyuni-server \
         --create-namespace \
         -f values.yaml
-    ```
-
-1. Edit the uyuni Deployment in the uyuni-server Namespace
-
-    Edit the env vars `SCC_USER` and `SCC_PASS` on the uyuni container to reference the `the-scc-secret` Secret instead of `regcred`
-
-    ```
-    kubectl -n uyuni-server edit deployment uyuni
     ```
 
 ## Automated Deployment with Fleet
@@ -206,8 +197,7 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
 1. Create namespace, registry credential and scc-secret in the downstream cluster:
     ```
     kubectl create ns uyuni-server
-    kubectl -n uyuni-server create secret docker-registry regcred --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
-    kubectl -n uyuni-server create secret generic the-scc-secret --from-literal=username=$SCC_USER --from-literal=password=$SCC_PASS
+    kubectl -n uyuni-server create secret docker-registry scc-credentials --docker-server=registry.suse.com --docker-username=$SCC_USER --docker-password=$SCC_PASS
     ```
 1. Navigate to the **Continuous Delivery** interface and click **Clusters**.
 1. Click **Edit Config** for the downstream RKE2 cluster.
@@ -223,7 +213,7 @@ It is possible to automate the deployment into a Rancher-provisioned RKE2 cluste
       name: uyuni
       namespace: fleet-default
     spec:
-      branch: beta2
+      branch: 5.2-ga
       paths:
         - fleet
       pollingInterval: 1m0s
